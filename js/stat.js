@@ -25,24 +25,34 @@ window.renderStatistics = function(ctx, names, times) {
     var time = times[i];
     if (time > max) {
       max = time;
-      maxIndex = i;
     }
   }
 
-  var histogramWidth = 150;              // px;
-  var step = histogramWidth / (max - 0); // px;
+  var histogramWidth = 150;
+  var step = histogramWidth / max;
 
-  ctx.fillText('Худшее время: ' + max.toFixed(2) + 'мс у игрока ' + names[maxIndex], 120, 60);
+  var barWidth = 40; // ширина столбца
+  var indent = 50; // отступ между столбцами
+  var initialX = 140; // расположение по оси x
+  var initialY = 240; // расположение по оси y
+  var maxColor = 255;
 
-  var barHeigth = 40; // px;
-  var indent = 40;    // px;
-  var initialX = 120; // px;
-  var initialY = 80;  // px;
+  //ctx.textBaseline = 'top'; // положение надписи от левого верхнего угла
 
-  ctx.textBaseline = 'top'; // положение надписи от левого верхнего угла
   for(var i = 0; i < times.length; i++) {
-    ctx.fillRect(initialX, initialY + indent * i, times[i] * step, barHeigth); // заполненность батончиков
-    ctx.fillText(names[i], initialX + histogramWidth, initialY + indent * i); // имена
+
+    if (names[i] == 'Вы') {
+      ctx.fillStyle = 'rgba(255, 0, 0, 1)';
+      ctx.fillRect(initialX + indent * i, initialY, barWidth, (times[i] * step) * (-1));
+    } else {
+      var randomNumber = Math.floor(Math.random() * maxColor);
+      ctx.fillStyle = 'rgba(0, 0, 255, 0.' + randomNumber + ')';    // имитация рандомного числа для раскрашивания столбцов, 20 это отступ
+      ctx.fillRect(initialX + indent * i, initialY, barWidth, (times[i] * step) * (-1));
+    }
+
+    ctx.fillText(names[i], initialX + indent * i, initialY + 20); // текст имен под столбцами
+    ctx.fillText(times[i].toFixed(0), initialX + indent * i, initialY - (times[i] * step) - 10); // текст информации о времени над столбцами, 10 это отступ
+
   }
 
 };
