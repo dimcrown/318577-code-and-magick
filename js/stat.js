@@ -33,11 +33,9 @@ window.renderStatistics = function(ctx, names, times) {
 
   var barWidth = 40; // ширина столбца
   var indent = 50; // отступ между столбцами
-  var initialX = 140; // расположение по оси x
-  var initialY = 240; // расположение по оси y
-  var maxColor = 255;
-
-  //ctx.textBaseline = 'top'; // положение надписи от левого верхнего угла
+  var initialX = 140; // расположение стобцов и текста по оси x
+  var initialY = 240; // расположение стобцов и текста по оси y
+  var numberForRandom = 8; // переменная для нахождения рандомного числа
 
   for(var i = 0; i < times.length; i++) {
 
@@ -45,14 +43,12 @@ window.renderStatistics = function(ctx, names, times) {
       ctx.fillStyle = 'rgba(255, 0, 0, 1)';
       ctx.fillRect(initialX + indent * i, initialY, barWidth, (times[i] * step) * (-1));
     } else {
-      var randomNumber = Math.floor(Math.random() * maxColor);
-      ctx.fillStyle = 'rgba(0, 0, 255, 0.' + randomNumber + ')';    // имитация рандомного числа для раскрашивания столбцов, 20 это отступ
+      var randomNumber = Math.floor(Math.random() * numberForRandom);
+      ctx.fillStyle = 'rgba(0, 0, 255, 0.' + (randomNumber + 2) + ')';
       ctx.fillRect(initialX + indent * i, initialY, barWidth, (times[i] * step) * (-1));
     }
-
-    ctx.fillText(names[i], initialX + indent * i, initialY + 20); // текст имен под столбцами
-    ctx.fillText(times[i].toFixed(0), initialX + indent * i, initialY - (times[i] * step) - 10); // текст информации о времени над столбцами, 10 это отступ
-
+    ctx.fillStyle = 'rgba(0, 0, 0, 1)';
+    ctx.fillText(names[i], initialX + indent * i, initialY + 20); // текст имен под столбцами, 20 - это отступ
+    ctx.fillText(times[i].toFixed(0), initialX + indent * i, initialY - (times[i] * step) - 10); // текст информации о времени над столбцами, 10 - это отступ
   }
-
 };
