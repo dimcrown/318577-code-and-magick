@@ -1,7 +1,9 @@
 
-'use strict';
+(function(){
+    "use strict";
+})();
 
-window.renderStatistics = function(ctx, names, times) {
+var renderStatistics = function(ctx, names, times) {
 
 // Тень под облаком (прямоугольником)
   ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
@@ -36,6 +38,8 @@ window.renderStatistics = function(ctx, names, times) {
   var initialX = 140; // расположение стобцов и текста по оси x
   var initialY = 240; // расположение стобцов и текста по оси y
   var numberForRandom = 8; // переменная для нахождения рандомного числа
+
+/* jshint shadow:true */
 
   for(var i = 0; i < times.length; i++) {
 
