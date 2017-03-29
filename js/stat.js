@@ -1,9 +1,6 @@
+'use strict'
 
-(function(){
-    "use strict";
-})();
-
-var renderStatistics = function(ctx, names, times) {
+window.renderStatistics = function(ctx, names, times) {
 
 // Тень под облаком (прямоугольником)
   ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
@@ -20,39 +17,35 @@ var renderStatistics = function(ctx, names, times) {
   ctx.fillText('Ура вы победили!', 120, 40);
   ctx.fillText('Список результатов:', 120, 60);
 
-  var max = -1;
-  var maxIndex = -1;
+var max = getMaxOfArray();
 
-  for (var i = 0 ; i < times.length; i++) {
-    var time = times[i];
-    if (time > max) {
-      max = time;
-    }
-  }
+function getMaxOfArray() {
+  return Math.max.apply(null, times);
+}
 
   var histogramWidth = 150;
   var step = histogramWidth / max;
 
   var barWidth = 40; // ширина столбца
-  var indent = 50; // отступ между столбцами
-  var initialX = 140; // расположение стобцов и текста по оси x
+  var indent = 50; // отступ между столбцами    420 / 50 + 40 =
+  var initialX = 155; // расположение стобцов и текста по оси x
   var initialY = 240; // расположение стобцов и текста по оси y
   var numberForRandom = 8; // переменная для нахождения рандомного числа
 
-/* jshint shadow:true */
+  var evenlyNumber = (420 - (((2 * barWidth + indent) * 2) + indent)) / 3; // переменная для равномерного распределения стобцов на всю ширину
 
   for(var i = 0; i < times.length; i++) {
 
     if (names[i] == 'Вы') {
       ctx.fillStyle = 'rgba(255, 0, 0, 1)';
-      ctx.fillRect(initialX + indent * i, initialY, barWidth, (times[i] * step) * (-1));
+      ctx.fillRect(initialX + (indent + evenlyNumber) * i, initialY, barWidth, (times[i] * step) * (-1));
     } else {
       var randomNumber = Math.floor(Math.random() * numberForRandom);
       ctx.fillStyle = 'rgba(0, 0, 255, 0.' + (randomNumber + 2) + ')';
-      ctx.fillRect(initialX + indent * i, initialY, barWidth, (times[i] * step) * (-1));
+      ctx.fillRect(initialX + (indent + evenlyNumber) * i, initialY, barWidth, (times[i] * step) * (-1));
     }
     ctx.fillStyle = 'rgba(0, 0, 0, 1)';
-    ctx.fillText(names[i], initialX + indent * i, initialY + 20); // текст имен под столбцами, 20 - это отступ
-    ctx.fillText(times[i].toFixed(0), initialX + indent * i, initialY - (times[i] * step) - 10); // текст информации о времени над столбцами, 10 - это отступ
+    ctx.fillText(names[i], initialX + (indent + evenlyNumber) * i, initialY + 20); // текст имен под столбцами, 20 - это отступ
+    ctx.fillText(times[i].toFixed(0), initialX + (indent + evenlyNumber) * i, initialY - (times[i] * step) - 10); // текст информации о времени над столбцами, 10 - это отступ
   }
 };
