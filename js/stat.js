@@ -1,6 +1,6 @@
-'use strict'
+'use strict';
 
-window.renderStatistics = function(ctx, names, times) {
+window.renderStatistics = function (ctx, names, times) {
 
 // Тень под облаком (прямоугольником)
   ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
@@ -17,11 +17,10 @@ window.renderStatistics = function(ctx, names, times) {
   ctx.fillText('Ура вы победили!', 120, 40);
   ctx.fillText('Список результатов:', 120, 60);
 
-var max = getMaxOfArray();
-
-function getMaxOfArray() {
-  return Math.max.apply(null, times);
-}
+  var max = getMaxOfArray();
+  function getMaxOfArray() {
+    return Math.max.apply(null, times);
+  }
 
   var histogramWidth = 150;
   var step = histogramWidth / max;
@@ -34,9 +33,8 @@ function getMaxOfArray() {
 
   var evenlyNumber = (420 - (((2 * barWidth + indent) * 2) + indent)) / 3; // переменная для равномерного распределения стобцов на всю ширину
 
-  for(var i = 0; i < times.length; i++) {
-
-    if (names[i] == 'Вы') {
+  for (var i = 0; i < times.length; i++) {
+    if (names[i] === 'Вы') {
       ctx.fillStyle = 'rgba(255, 0, 0, 1)';
       ctx.fillRect(initialX + (indent + evenlyNumber) * i, initialY, barWidth, (times[i] * step) * (-1));
     } else {
